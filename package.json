@@ -1,0 +1,23 @@
+{
+  "name": "saphire",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "dist": "build"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-builder": "^20.38.3"
+  },
+  "build": {
+    "appId": "Saphire",
+    "win": {
+      "target": "NSIS"
+    }
+  }
+}

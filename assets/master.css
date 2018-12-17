@@ -1,0 +1,77 @@
+* {
+  font-style: normal;
+  font-family: "Verdana", sans-serif;
+}
+body {
+  margin: 0px;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background-color: rgba(0,0,0,0.85);
+  margin-bottom: 50px;
+  color: white;
+  padding: 35px;
+  box-shadow: 1px 1px 30px grey;
+}
+.nav-link {
+  color: inherit;
+  font-size: 25px;
+  font-style: bold;
+  font-family: "Verdana", sans-serif;
+  padding: 40px;
+  text-decoration: none;
+}
+.nav-link:hover {
+  text-decoration: underline;
+}
+button {
+  background-color: lightgrey;
+  border: solid 1px lightblue;
+  padding: 10px 32px;
+  text-align: center;
+  display: inline-block;
+}
+input {
+  font-size: 20px;
+  margin: 10px;
+  width: 300px;
+}
+button {
+  box-shadow: 1px 1px 6px grey;
+}
+textarea {
+  font-size: 20px;
+  margin: 10px;
+  width: 300px;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+th, td {
+  border-bottom: 1px solid lightgrey;
+  padding: 10px 50px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: lightblue;
+}
+
+.popup {
+  border-radius: 10px;
+  display: none;
+  text-align: center;
+  color: white;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  left: 50%;
+  top: 20%;
+  margin-left: -200px;
+  padding: 20px;
+}

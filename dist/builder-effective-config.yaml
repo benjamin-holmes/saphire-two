@@ -1,0 +1,7 @@
+directories:
+  output: dist
+  buildResources: build
+appId: Saphire
+win:
+  target: NSIS
+electronVersion: 3.0.10

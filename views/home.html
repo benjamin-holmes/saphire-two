@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Saphire II</title>
+    <link rel="stylesheet" href="../assets/master.css">
+  </head>
+  <body>
+    <nav class="navbar" id="navbar">
+      <a href='#' id='new-job-link' class="nav-link">New</a>
+      <a href="#" class="nav-link">Review</a>
+      <a href="#" class="nav-link">Print</a>
+    </nav>
+    <div class="popup" id="popup" hidden="true">
+      <h3>Details</h3>
+      <h4 id="popup-location"></h3>
+      <p id="popup-time"></p>
+      <p id="popup-details"></p>
+      <button type="button" id='done'>Done</button>
+    </div>
+    <div class="popup" id="new-job-container" hidden="true">
+      <h2>New Job</h2>
+      <input id="new-job-location" type="text" placeholder="Location">
+      <br>
+      <input id="new-job-date" type="date">
+      <br>
+      <input id="new-job-start-time" type="time" value="12:00">
+      <br>
+      <input id="new-job-end-time" type="time" value="13:00">
+      <br>
+      <textarea id="new-job-more-info" rows=10></textarea>
+      <br>
+      <button id="create-job">Create</button>
+    </div>
+    <table>
+      <thead>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Time Spent</th>
+      </thead>
+      <tbody id="job-table-body">
+      </tbody>
+    <table>
+    <script type="text/javascript" src="../controllers/homeController.js">
+    </script>
+  </body>
+</html>
