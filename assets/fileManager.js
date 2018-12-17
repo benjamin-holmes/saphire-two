@@ -52,6 +52,8 @@ class FileManager {
     let jsonJobs, addJob;
     let fd = fs.openSync(this.filename, 'r');
     let data = fs.readFileSync(fd, 'utf8');
+
+    // TODO: check for empty data 
     jsonJobs = JSON.parse(data);
 
     // Clear the list before adding items

@@ -19,7 +19,7 @@ const createJobButton = document.getElementById('create-job');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
-let fileManager = new JobFileManager('./data/jobs.json');
+let fileManager = new JobFileManager('./jobs.json');
 
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
@@ -109,7 +109,7 @@ jobTableBody.addEventListener('click', (e) => {
   let itemNum = e.path[1].getAttribute('data-id');
 
   // TODO: This causes items to be appended to the array inside of the fileManager class
-  // which is leading to rewrites of already existing jobs. Fix!  
+  // which is leading to rewrites of already existing jobs. Fix!
   let list = fileManager.getJobs();
   let job = list[parseInt(itemNum)-1];
   console.log(parseInt(itemNum));
