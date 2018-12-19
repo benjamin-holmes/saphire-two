@@ -9,6 +9,25 @@ class FileManager {
     this.jobList = [];
   }
 
+  test() {
+    console.log('TESTING LIST MANIPULATION');
+
+    for(let job of this.jobList) {
+      let dateList = job.date.split('-');
+      let date = new Date(dateList[0], dateList[1], dateList[2]);
+      console.log(`${job.date} => ${date}`);
+    }
+
+    this.jobList.sort((a,b) => {
+      let dateArrA = a.date.split('-');
+      let dateArrB = b.date.split('-');
+      let dateA = new Date(dateArrA[0], dateArrA[1], dateArrA[2]);
+      let dateB = new Date(dateArrB[0], dateArrB[1], dateArrB[2]);
+
+      return dateB - dateA;
+    });
+  }
+
   // Checks to see if the file to store job data
   // exists. It creates it if it is not
   dataFileCheck() {
@@ -53,7 +72,7 @@ class FileManager {
     let fd = fs.openSync(this.filename, 'r');
     let data = fs.readFileSync(fd, 'utf8');
 
-    // TODO: check for empty data 
+    // TODO: check for empty data
     jsonJobs = JSON.parse(data);
 
     // Clear the list before adding items
@@ -63,6 +82,8 @@ class FileManager {
       addJob = new Job(job.id, job.location, job.date, job.startTime, job.endTime, job.notes);
       this.jobList.push(addJob);
     }
+    // TODO: Remove for full version. Used for list manipulation tests
+    this.test();
     return this.jobList;
   }
 
