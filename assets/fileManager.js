@@ -9,7 +9,7 @@ class FileManager {
     this.jobList = [];
   }
 
-  test() {
+  sortByDate() {
     console.log('TESTING LIST MANIPULATION');
 
     for(let job of this.jobList) {
@@ -41,21 +41,28 @@ class FileManager {
   }
 
   writeJob(job) {
+    let fd;
     // create a JSON formatted string to go into the file
     this.jobList.push(job);
+    fd = fs.openSync(this.filename, 'r+');
+    console.log();
+    fs.writeFileSync(fd, JSON.stringify(this.jobList));
+    fs.closeSync(fd);
 
-    fs.open(this.filename, 'w', (err, fd) => {
-      if(err) { throw err }
 
-      // write to the file
-      fs.writeFile(fd, JSON.stringify(this.jobList), 'utf8', (err) => {
-        fs.close(fd, (err) => {
-          if (err) { throw err }
-        });
-        if (err) { throw err }
-      });
-
-    });
+    // fs.open(this.filename, 'w', (err, fd) => {
+    //   if(err) { throw err }
+    //
+    //   // write to the file
+    //   fs.writeFile(fd, JSON.stringify(this.jobList), 'utf8', (err) => {
+    //     fs.close(fd, (err) => {
+    //       if (err) { throw err }
+    //       console.log('done write!');
+    //     });
+    //     if (err) { throw err }
+    //   });
+    //
+    // });
   }
 
   /*
@@ -83,7 +90,8 @@ class FileManager {
       this.jobList.push(addJob);
     }
     // TODO: Remove for full version. Used for list manipulation tests
-    this.test();
+    this.sortByDate();
+    console.log(this.jobList);
     return this.jobList;
   }
 

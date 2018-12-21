@@ -19,11 +19,16 @@ const createJobButton = document.getElementById('create-job');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
-let fileManager = new JobFileManager('./jobs.json');
+let fileManager = new JobFileManager('./data/jobs.json');
 
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
   let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl;
+
+  // delete all old elements.
+  while(jobTableBody.firstChild) {
+    jobTableBody.removeChild(jobTableBody.firstChild);
+  }
 
   for (let job of jobList) {
     newJobRow = document.createElement('tr');
@@ -63,31 +68,35 @@ function createJob() {
   let j = new Job(fileManager.listSize() + 1, location, date, startTime, endTime, moreInfo);
   fileManager.writeJob(j);
   // Create new row and the element containers inside
-  newJobRow = document.createElement('tr');
-  locationEl = document.createElement('td');
-  dateEl = document.createElement('td');
-  timeEl = document.createElement('td');
+  // newJobRow = document.createElement('tr');
+  // locationEl = document.createElement('td');
+  // dateEl = document.createElement('td');
+  // timeEl = document.createElement('td');
+  //
+  //
+  // // Text nodes to add
+  // locationText = document.createTextNode(location);
+  // dateText = document.createTextNode(date);
+  // timeText = document.createTextNode(`${j.hours}hrs ${j.minutes}minute(s)`);
+  //
+  // locationEl.appendChild(locationText);
+  // dateEl.appendChild(dateText);
+  // timeEl.appendChild(timeText);
+  //
+  // newJobRow.appendChild(dateEl);
+  // newJobRow.appendChild(locationEl);
+  // newJobRow.appendChild(timeEl);
+  //
+  // newJobRow.setAttribute('data-id', fileManager.listSize());
+  //
+  // jobTableBody.append(newJobRow);
 
-
-  // Text nodes to add
-  locationText = document.createTextNode(location);
-  dateText = document.createTextNode(date);
-  timeText = document.createTextNode(`${j.hours}hrs ${j.minutes}minute(s)`);
-
-  locationEl.appendChild(locationText);
-  dateEl.appendChild(dateText);
-  timeEl.appendChild(timeText);
-
-  newJobRow.appendChild(dateEl);
-  newJobRow.appendChild(locationEl);
-  newJobRow.appendChild(timeEl);
-
-  newJobRow.setAttribute('data-id', fileManager.listSize());
-
-  jobTableBody.append(newJobRow);
+  // repopulate the list
+  populateList(fileManager.getJobs());
 
   // Hide the new job div element
   newJobContainer.style.display = "none";
+
 }
 
 // Toggle the new job container
@@ -111,8 +120,7 @@ jobTableBody.addEventListener('click', (e) => {
   // TODO: This causes items to be appended to the array inside of the fileManager class
   // which is leading to rewrites of already existing jobs. Fix!
   let list = fileManager.getJobs();
-  let job = list[parseInt(itemNum)-1];
-  console.log(parseInt(itemNum));
+  let job = list.find((a) => { return a.id === parseInt(itemNum) });
 
   popupLocation.innerText = job.location;
   popupTime.innerText = `Time Spent: ${job.hours} hr(s) and ${job.minutes} min(s)`;
