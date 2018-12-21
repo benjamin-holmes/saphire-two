@@ -48,21 +48,6 @@ class FileManager {
     console.log();
     fs.writeFileSync(fd, JSON.stringify(this.jobList));
     fs.closeSync(fd);
-
-
-    // fs.open(this.filename, 'w', (err, fd) => {
-    //   if(err) { throw err }
-    //
-    //   // write to the file
-    //   fs.writeFile(fd, JSON.stringify(this.jobList), 'utf8', (err) => {
-    //     fs.close(fd, (err) => {
-    //       if (err) { throw err }
-    //       console.log('done write!');
-    //     });
-    //     if (err) { throw err }
-    //   });
-    //
-    // });
   }
 
   /*

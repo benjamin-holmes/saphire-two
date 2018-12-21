@@ -57,7 +57,6 @@ function populateList(jobList) {
 
 // Create a new job object and add it to the list
 function createJob() {
-  let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl;
   let location = newJobLocation.value;
   let date = newJobDate.value;
   let startTime = newJobStartTime.value;
@@ -67,29 +66,6 @@ function createJob() {
 
   let j = new Job(fileManager.listSize() + 1, location, date, startTime, endTime, moreInfo);
   fileManager.writeJob(j);
-  // Create new row and the element containers inside
-  // newJobRow = document.createElement('tr');
-  // locationEl = document.createElement('td');
-  // dateEl = document.createElement('td');
-  // timeEl = document.createElement('td');
-  //
-  //
-  // // Text nodes to add
-  // locationText = document.createTextNode(location);
-  // dateText = document.createTextNode(date);
-  // timeText = document.createTextNode(`${j.hours}hrs ${j.minutes}minute(s)`);
-  //
-  // locationEl.appendChild(locationText);
-  // dateEl.appendChild(dateText);
-  // timeEl.appendChild(timeText);
-  //
-  // newJobRow.appendChild(dateEl);
-  // newJobRow.appendChild(locationEl);
-  // newJobRow.appendChild(timeEl);
-  //
-  // newJobRow.setAttribute('data-id', fileManager.listSize());
-  //
-  // jobTableBody.append(newJobRow);
 
   // repopulate the list
   populateList(fileManager.getJobs());
@@ -116,9 +92,6 @@ jobTableBody.addEventListener('click', (e) => {
 
   // get the selected item using the data-id attrib
   let itemNum = e.path[1].getAttribute('data-id');
-
-  // TODO: This causes items to be appended to the array inside of the fileManager class
-  // which is leading to rewrites of already existing jobs. Fix!
   let list = fileManager.getJobs();
   let job = list.find((a) => { return a.id === parseInt(itemNum) });
 
