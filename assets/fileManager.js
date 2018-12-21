@@ -10,14 +10,6 @@ class FileManager {
   }
 
   sortByDate() {
-    console.log('TESTING LIST MANIPULATION');
-
-    for(let job of this.jobList) {
-      let dateList = job.date.split('-');
-      let date = new Date(dateList[0], dateList[1], dateList[2]);
-      console.log(`${job.date} => ${date}`);
-    }
-
     this.jobList.sort((a,b) => {
       let dateArrA = a.date.split('-');
       let dateArrB = b.date.split('-');

@@ -21,6 +21,13 @@ const doneButton = document.getElementById('done');
 
 let fileManager = new JobFileManager('./data/jobs.json');
 
+function clearNewJobInputs() {
+  let inputs = newJobContainer.querySelectorAll('input');
+  for (let input of inputs){ input.value = '' };
+  // clear out the text area
+  newJobMoreInfo.value = '';
+}
+
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
   let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl;
@@ -73,6 +80,8 @@ function createJob() {
   // Hide the new job div element
   newJobContainer.style.display = "none";
 
+  // clear inputs from the create job div
+  clearNewJobInputs();
 }
 
 // Toggle the new job container
