@@ -16,6 +16,7 @@ const newJobEndTime = document.getElementById('new-job-end-time');
 const newJobMoreInfo = document.getElementById('new-job-more-info');
 const jobTableBody = document.getElementById('job-table-body');
 const createJobButton = document.getElementById('create-job');
+const deleteJobButton = document.getElementById('delete-job-popup');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
@@ -45,7 +46,7 @@ function populateList(jobList) {
 
     locationText = document.createTextNode(job.location);
     dateText = document.createTextNode(job.date);
-    timeText = document.createTextNode(`${job.hours}hrs ${job.minutes}minute(s)`);
+    timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
 
     locationEl.appendChild(locationText);
     dateEl.appendChild(dateText);
@@ -84,6 +85,14 @@ function createJob() {
   clearNewJobInputs();
 }
 
+function deleteJob(event){
+  let jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
+  console.log(`DELETE:\n${jobId}`);
+  fileManager.deleteJob(jobId);
+  fileManager.reWriteJobList();
+  populateList(fileManager.getJobs());
+}
+
 // Toggle the new job container
 newJobButton.addEventListener('click', (e) => {
     if ( newJobContainer.style.display === "none" ) { newJobContainer.style.display = "block" }
@@ -107,6 +116,7 @@ jobTableBody.addEventListener('click', (e) => {
   popupLocation.innerText = job.location;
   popupTime.innerText = `Time Spent: ${job.hours} hr(s) and ${job.minutes} min(s)`;
   popupDetails.innerText = job.notes;
+  popup.setAttribute('data-id', itemNum);
 
   popup.style.display = "block";
 
@@ -130,6 +140,9 @@ window.addEventListener('scroll', (e) => {
 
 // Handle a new job being created
 createJobButton.addEventListener('click', createJob);
+
+// Handle a job being deleted
+deleteJobButton.addEventListener('click', (e) => { deleteJob(e) });
 
 // basic initial preparation
 fileManager.dataFileCheck();

@@ -9,6 +9,9 @@ class FileManager {
     this.jobList = [];
   }
 
+  /*
+   * Sorts the stored list in the object by most recent.
+   */
   sortByDate() {
     this.jobList.sort((a,b) => {
       let dateArrA = a.date.split('-');
@@ -37,9 +40,20 @@ class FileManager {
     // create a JSON formatted string to go into the file
     this.jobList.push(job);
     fd = fs.openSync(this.filename, 'r+');
-    console.log();
     fs.writeFileSync(fd, JSON.stringify(this.jobList));
     fs.closeSync(fd);
+  }
+
+  reWriteJobList() {
+    fs.writeFileSync(this.filename, JSON.stringify(this.jobList));
+    console.log(JSON.stringify(this.jobList));
+  }
+
+  deleteJob(jobId) {
+    console.log(`JobList before:\t${this.jobList.length}`);
+    console.log(jobId);
+    this.jobList = this.jobList.filter(job => parseInt(job.id) !== jobId);
+    console.log(`JobList after:\t${this.jobList.length}`);
   }
 
   /*
