@@ -1,8 +1,8 @@
 version: 0.1.0
 files:
   - url: saphire-setup-0.1.0.exe
-    sha512: 3ReBA0r/HQh7AFGRPXsXgSeOIevbjKOFmvqIF1QsWFdEtkQxOdPEn7yH+oRMHtlMHZOqqK/it6iASNQMfPNKjA==
-    size: 38044305
+    sha512: 4s/S1h0wD8w1vUagq1Rge8yrKGOTIv9Ua+vM3FklQjarurN4+zc53Owfiu9xy7/Kq+D1YiAIVNCilDbeFOO7yg==
+    size: 38044829
 path: saphire-setup-0.1.0.exe
-sha512: 3ReBA0r/HQh7AFGRPXsXgSeOIevbjKOFmvqIF1QsWFdEtkQxOdPEn7yH+oRMHtlMHZOqqK/it6iASNQMfPNKjA==
-releaseDate: '2018-12-19T17:59:28.174Z'
+sha512: 4s/S1h0wD8w1vUagq1Rge8yrKGOTIv9Ua+vM3FklQjarurN4+zc53Owfiu9xy7/Kq+D1YiAIVNCilDbeFOO7yg==
+releaseDate: '2018-12-24T04:26:10.661Z'
