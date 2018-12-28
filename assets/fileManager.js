@@ -7,6 +7,7 @@ class FileManager {
   constructor(jobFileLocation) {
     this.filename = jobFileLocation;
     this.jobList = [];
+    this.dateList = [];
   }
 
   /*
@@ -21,6 +22,23 @@ class FileManager {
 
       return dateB - dateA;
     });
+  }
+
+  separateByDate() {
+    let curList = [];
+    curList.push(this.jobList[0]);
+    for (let j = 1; j < this.jobList.length; j++) {
+      let curJob = this.jobList[j];
+      if (curJob.date === curList[0].date) {
+        curList.push(curJob);
+      } else {
+        let newList = [];
+        this.dateList.push(curList);
+        newList.push(curJob);
+        curList = newList;
+      }
+    }
+    console.log(this.dateList);
   }
 
   // Checks to see if the file to store job data
@@ -75,6 +93,7 @@ class FileManager {
 
     // Clear the list before adding items
     this.jobList = [];
+    this.dateList = [];
 
     for (let job of jsonJobs) {
       addJob = new Job(job.id, job.location, job.date, job.startTime, job.endTime, job.notes);
@@ -82,8 +101,9 @@ class FileManager {
     }
     // TODO: Remove for full version. Used for list manipulation tests
     this.sortByDate();
-    console.log(this.jobList);
-    return this.jobList;
+    this.separateByDate();
+
+    return this.dateList;
   }
 
   /*
