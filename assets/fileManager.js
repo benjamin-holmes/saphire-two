@@ -31,11 +31,20 @@ class FileManager {
       let curJob = this.jobList[j];
       if (curJob.date === curList[0].date) {
         curList.push(curJob);
+        // Check to add list if last job inspected
+        if (j + 1 === this.jobList.length) {
+          this.dateList.push(curList);
+        }
       } else {
+        console.log('Creating new list');
         let newList = [];
         this.dateList.push(curList);
         newList.push(curJob);
         curList = newList;
+        // Check to add list if last job inspected
+        if (j + 1 === this.jobList.length) {
+          this.dateList.push(curList);
+        }
       }
     }
     console.log(this.dateList);
