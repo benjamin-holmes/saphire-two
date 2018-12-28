@@ -5,6 +5,9 @@
 body {
   margin: 0px;
 }
+h2 {
+  text-align: center;
+}
 .navbar {
   position: sticky;
   top: 0;
@@ -47,12 +50,11 @@ textarea {
   margin: 10px;
   width: 300px;
 }
-
 table {
   font-size: 18px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 80px;
+  margin-bottom: 80px;
   border-collapse: collapse;
   box-shadow: 1px 1px 30px grey;
   width: 650px;

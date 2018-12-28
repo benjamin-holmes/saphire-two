@@ -38,7 +38,7 @@ function clearTableArea() {
 }
 
 function createJobTable(){
-  console.log('Create Table');
+  const tableTitle = document.createElement('h2');
   const newTable = document.createElement('table');
   const heading = document.createElement('thead');
   const dateHeading = document.createElement('th');
@@ -48,11 +48,13 @@ function createJobTable(){
   dateHeading.appendChild(document.createTextNode('Date'));
   locationHeading.appendChild(document.createTextNode('Location'));
   timeHeading.appendChild(document.createTextNode('Time'));
+  tableTitle.appendChild(document.createTextNode('Date PlaceHolder'));
 
   heading.appendChild(dateHeading);
   heading.appendChild(locationHeading);
   heading.appendChild(timeHeading);
 
+  tableArea.appendChild(tableTitle);
   newTable.appendChild(heading);
 
   tableArea.append(newTable);
@@ -135,30 +137,31 @@ newJobButton.addEventListener('click', (e) => {
 
 // Handling click events on each job. Will have to show details on the job
 // as well as ways to udpate the jobs.
-// TODO: Finish implementing!
-// jobTableBody.addEventListener('click', (e) => {
-//   // popup elements to edit
-//   let popupLocation = document.getElementById('popup-location');
-//   let popupTime = document.getElementById('popup-time');
-//   let popupDetails = document.getElementById('popup-details');
-//
-//   // get the selected item using the data-id attrib
-//   let itemNum = e.path[1].getAttribute('data-id');
-//   let list = fileManager.getJobs();
-//   let job = list.find((a) => { return a.id === parseInt(itemNum) });
-//
-//   popupLocation.innerText = job.location;
-//   popupTime.innerText = `Time Spent: ${job.hours} hr(s) and ${job.minutes} min(s)`;
-//   popupDetails.innerText = job.notes;
-//   popup.setAttribute('data-id', itemNum);
-//
-//   popup.style.display = "block";
-//
-//   // Handles closing button
-//   done.addEventListener('click', (e) => {
-//     popup.style.display = "none";
-//   });
-// });
+// TODO: cleanup code!
+tableArea.addEventListener('click', (e) => {
+  // popup elements to edit
+  let popupLocation = document.getElementById('popup-location');
+  let popupTime = document.getElementById('popup-time');
+  let popupDetails = document.getElementById('popup-details');
+  let list = fileManager.getJobList();
+
+  if (e.target.parentElement.nodeName === 'TR') {
+      console.log(e.target.parentElement.getAttribute('data-id'));
+      let itemNum = e.target.parentElement.getAttribute('data-id');
+      popup.style.display = "block";
+      let job = list.find((a) => { return a.id === parseInt(itemNum) });
+
+      popupLocation.innerText = job.location;
+      popupTime.innerText = `Time Spent: ${job.hours} hr(s) and ${job.minutes} min(s)`;
+      popupDetails.innerText = job.notes;
+      popup.setAttribute('data-id', itemNum);
+
+      // Handles closing button
+      done.addEventListener('click', (e) => {
+        popup.style.display = "none";
+      });
+  }
+});
 
 // Handles shrinking and adding opacity to the nav bar
 window.addEventListener('scroll', (e) => {

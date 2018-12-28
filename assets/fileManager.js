@@ -106,6 +106,16 @@ class FileManager {
     return this.dateList;
   }
 
+  getJobList() {
+    let jobList = [];
+    for (let list of this.dateList) {
+      for (let job of list) {
+        jobList.push(job);
+      }
+    }
+    return jobList;
+  }
+
   /*
    * Returns the current size of the list of jobs
    *
