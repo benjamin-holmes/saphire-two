@@ -63,8 +63,11 @@ th, td {
   border-bottom: 1px solid lightgrey;
   padding: 10px 50px;
 }
-
-tbody tr:nth-child(even) {
+th {
+  color: white;
+  background-color: black;
+}
+table tr:nth-child(odd) {
   background-color: lightblue;
 }
 
