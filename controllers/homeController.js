@@ -37,27 +37,36 @@ function clearTableArea() {
   }
 }
 
-function createJobTable(){
+function createJobTable(date, timeSpentObj){
+  const tableContainer = document.createElement('div');
   const tableTitle = document.createElement('h2');
   const newTable = document.createElement('table');
   const heading = document.createElement('thead');
   const dateHeading = document.createElement('th');
   const locationHeading = document.createElement('th');
   const timeHeading = document.createElement('th');
+  const timeDetails = document.createElement('p');
 
   dateHeading.appendChild(document.createTextNode('Date'));
   locationHeading.appendChild(document.createTextNode('Location'));
   timeHeading.appendChild(document.createTextNode('Time'));
-  tableTitle.appendChild(document.createTextNode('Date PlaceHolder'));
+  tableTitle.appendChild(document.createTextNode(date));
+  timeDetails.appendChild(document.createTextNode(`${timeSpentObj.hours} hours and
+    ${timeSpentObj.mins} minutes of work done today.`));
 
   heading.appendChild(dateHeading);
   heading.appendChild(locationHeading);
   heading.appendChild(timeHeading);
 
-  tableArea.appendChild(tableTitle);
   newTable.appendChild(heading);
 
-  tableArea.append(newTable);
+  tableContainer.appendChild(tableTitle);
+  tableContainer.appendChild(timeDetails);
+  tableContainer.appendChild(newTable);
+  tableContainer.setAttribute('class', 'table-container');
+
+  tableArea.append(tableContainer);
+
   return newTable;
 }
 
@@ -85,11 +94,31 @@ function addJobToTable(job, table){
   table.appendChild(newJobRow);
 }
 
+function calculateTimeSpent(jobList) {
+  let hours = 0;
+  let mins = 0;
+  for (let job of jobList) {
+    hours += parseInt(job.hours);
+    mins += parseInt(job.minutes);
+  }
+
+  // deal with minutes totalling more than 60
+  if (mins > 59) {
+    hours += Math.floor(mins/60);
+    mins = mins % 60;
+  }
+  return {
+    hours: hours,
+    mins: mins
+  }
+}
+
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
   console.log(`Number of Tables to create:\n${jobList.length}`);
   for (let j in jobList){
-    let newTable = createJobTable();
+    let totalTimeDay = calculateTimeSpent(jobList[j]);
+    let newTable = createJobTable(jobList[j][0].date, totalTimeDay);
     for (let job of jobList[j]){
       addJobToTable(job, newTable);
     }

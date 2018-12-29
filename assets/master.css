@@ -50,13 +50,21 @@ textarea {
   margin: 10px;
   width: 300px;
 }
+.table-container {
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 1px 30px grey;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 80px;
+  width: 90%;
+}
 table {
+  margin-bottom: 60px;
   font-size: 18px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 80px;
   border-collapse: collapse;
-  box-shadow: 1px 1px 30px grey;
   width: 650px;
 }
 th, td {

@@ -57,7 +57,7 @@ class FileManager {
       console.log('File Exists');
     }
     else {
-      console.log('Must create the file')
+      console.log('Must create the file');
       fs.writeFile(this.filename, '', (err) => { if (err) throw err});
     }
   }
