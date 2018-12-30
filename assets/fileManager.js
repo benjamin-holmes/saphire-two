@@ -27,6 +27,9 @@ class FileManager {
   separateByDate() {
     let curList = [];
     curList.push(this.jobList[0]);
+    if (this.jobList.length === 1) {
+      this.dateList.push(curList);
+    }
     for (let j = 1; j < this.jobList.length; j++) {
       let curJob = this.jobList[j];
       if (curJob.date === curList[0].date) {
@@ -73,7 +76,6 @@ class FileManager {
 
   reWriteJobList() {
     fs.writeFileSync(this.filename, JSON.stringify(this.jobList));
-    console.log(JSON.stringify(this.jobList));
   }
 
   deleteJob(jobId) {

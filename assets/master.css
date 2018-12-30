@@ -78,7 +78,6 @@ th {
 table tr:nth-child(odd) {
   background-color: lightblue;
 }
-
 .popup {
   border-radius: 10px;
   display: none;

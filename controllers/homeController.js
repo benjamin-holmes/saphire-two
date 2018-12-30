@@ -155,6 +155,7 @@ function deleteJob(event){
   console.log(`DELETE:\n${jobId}`);
   fileManager.deleteJob(jobId);
   fileManager.reWriteJobList();
+  clearTableArea();
   populateList(fileManager.getJobs());
 }
 
