@@ -30,8 +30,11 @@ function clearNewJobInputs() {
   newJobMoreInfo.value = '';
 }
 
+/*
+ * Goes through each child of the table area and clears
+ * them to allow the updated tables to be displayed.
+ */
 function clearTableArea() {
-  //TODO: Implement using next child
   while(tableArea.firstChild) {
     tableArea.removeChild(tableArea.firstChild);
   }
@@ -47,14 +50,12 @@ function createJobTable(date, timeSpentObj){
   const timeHeading = document.createElement('th');
   const timeDetails = document.createElement('p');
 
-  dateHeading.appendChild(document.createTextNode('Date'));
   locationHeading.appendChild(document.createTextNode('Location'));
   timeHeading.appendChild(document.createTextNode('Time'));
   tableTitle.appendChild(document.createTextNode(date));
   timeDetails.appendChild(document.createTextNode(`${timeSpentObj.hours} hours and
     ${timeSpentObj.mins} minutes of work done today.`));
 
-  heading.appendChild(dateHeading);
   heading.appendChild(locationHeading);
   heading.appendChild(timeHeading);
 
@@ -75,18 +76,14 @@ function addJobToTable(job, table){
 
   newJobRow = document.createElement('tr');
   locationEl = document.createElement('td');
-  dateEl = document.createElement('td');
   timeEl = document.createElement('td');
 
   locationText = document.createTextNode(job.location);
-  dateText = document.createTextNode(job.date);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
 
   locationEl.appendChild(locationText);
-  dateEl.appendChild(dateText);
   timeEl.appendChild(timeText);
 
-  newJobRow.appendChild(dateEl);
   newJobRow.appendChild(locationEl);
   newJobRow.appendChild(timeEl);
 
@@ -142,10 +139,7 @@ function createJob() {
 
   // clear inputs from the create job div
   clearNewJobInputs();
-
   clearTableArea();
-  console.log('deleting elements');
-
   // repopulate the list
   populateList(fileManager.getJobs());
 }
@@ -157,6 +151,7 @@ function deleteJob(event){
   fileManager.reWriteJobList();
   clearTableArea();
   populateList(fileManager.getJobs());
+  popup.style.display = "none";
 }
 
 // Toggle the new job container
