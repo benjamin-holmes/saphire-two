@@ -24,6 +24,16 @@ class FileManager {
     });
   }
 
+  /**
+    * Creates 2D Job List.
+    *
+    * Creates a two dimensional array of jobs. Each element of
+    * the array is an array of jobs from one day. The sortByDay()
+    * function is called before this. So jobs are pushed onto an
+    * array until the next set is found.
+    *
+    * @return {List} 2D array of sorted jobs
+    */
   separateByDate() {
     let curList = [];
     curList.push(this.jobList[0]);
@@ -53,8 +63,12 @@ class FileManager {
     console.log(this.dateList);
   }
 
-  // Checks to see if the file to store job data
-  // exists. It creates it if it is not
+  /**
+   * Checks for data file
+   *
+   * Checks the current directory to see if there is a file
+   * already created to store the jobs. If not, it creates it.
+   */
   dataFileCheck() {
     if (fs.existsSync(this.filename)) {
       console.log('File Exists');
@@ -65,6 +79,15 @@ class FileManager {
     }
   }
 
+  /**
+   * Writes a new job to file
+   *
+   * When the function is called, it appends the new job to
+   * the jobList and then re-writes the data file containing
+   * all the jobs.
+   *
+   * @params {Job}  job A job object passed from calling function.
+   */
   writeJob(job) {
     let fd;
     // create a JSON formatted string to go into the file

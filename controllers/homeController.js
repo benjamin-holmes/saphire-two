@@ -4,7 +4,6 @@ const con = require('electron').remote.getGlobal('console');
 const JobFileManager = require('../assets/fileManager.js');
 const Job = require('../assets/job.js');
 
-con.log('Home Controller Active');
 
 const tableArea = document.getElementById('table-area');
 const popup = document.getElementById('popup');
@@ -58,9 +57,7 @@ function createJobTable(date, timeSpentObj){
 
   heading.appendChild(locationHeading);
   heading.appendChild(timeHeading);
-
   newTable.appendChild(heading);
-
   tableContainer.appendChild(tableTitle);
   tableContainer.appendChild(timeDetails);
   tableContainer.appendChild(newTable);
@@ -77,7 +74,6 @@ function addJobToTable(job, table){
   newJobRow = document.createElement('tr');
   locationEl = document.createElement('td');
   timeEl = document.createElement('td');
-
   locationText = document.createTextNode(job.location);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
 
@@ -98,7 +94,6 @@ function calculateTimeSpent(jobList) {
     hours += parseInt(job.hours);
     mins += parseInt(job.minutes);
   }
-
   // deal with minutes totalling more than 60
   if (mins > 59) {
     hours += Math.floor(mins/60);
@@ -112,7 +107,6 @@ function calculateTimeSpent(jobList) {
 
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
-  console.log(`Number of Tables to create:\n${jobList.length}`);
   for (let j in jobList){
     let totalTimeDay = calculateTimeSpent(jobList[j]);
     let newTable = createJobTable(jobList[j][0].date, totalTimeDay);
@@ -146,7 +140,6 @@ function createJob() {
 
 function deleteJob(event){
   let jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
-  console.log(`DELETE:\n${jobId}`);
   fileManager.deleteJob(jobId);
   fileManager.reWriteJobList();
   clearTableArea();
