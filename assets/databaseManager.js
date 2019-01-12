@@ -22,6 +22,7 @@ class DatabaseManager {
 
        return dateB - dateA;
      });
+     return data;
    }
 
  /**
@@ -88,7 +89,7 @@ class DatabaseManager {
    /**
     * Placeholder
     */
-    createJob(location, date, startTime, endTime, notes) {
+    createJob(location, date, startTime, endTime, notes, done) {
       let args = [location, date, startTime, endTime, notes];
       let sql = `INSERT INTO test(location, date, startTime, endTime, notes) VALUES(?, ?, ?, ?, ?)`;
       let db = new sqlite3.Database(this.databasePath);
@@ -98,6 +99,8 @@ class DatabaseManager {
           return console.log(err.message);
         }
         console.log(`New job added with rowid ${this.lastID}`);
+        // run the callback
+        done();
       });
       db.close();
     }
@@ -136,11 +139,11 @@ class DatabaseManager {
         db.all(sql, [], (err, rows) => {
           if (err) { throw err }
           // Sort and send to separateByDate
+          this.sortByDate(rows);
           rows.forEach((job) => {
             let j = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
             jobObjectList.push(j);
           });
-          this.sortByDate(rows);
           // use callback
           done(JSON.stringify(this.separateByDate(jobObjectList)));
         });

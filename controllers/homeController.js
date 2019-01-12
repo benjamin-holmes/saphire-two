@@ -134,8 +134,15 @@ function createJob() {
   let moreInfo = newJobMoreInfo.value;
   let newJobEl = document.createElement('div');
 
-  let j = new Job(fileManager.listSize() + 1, location, date, startTime, endTime, moreInfo);
-  fileManager.writeJob(j);
+  // let j = new Job(fileManager.listSize() + 1, location, date, startTime, endTime, moreInfo);
+  // fileManager.writeJob(j);
+  databaseManager.createJob(location, date, startTime, endTime, moreInfo, () => {
+    // repopulate the list
+    databaseManager.getAllJobs((jobs) => {
+      console.log(jobs);
+      populateList(jobs);
+    });
+  });
 
   // Hide the new job div element
   newJobContainer.style.display = "none";
@@ -143,8 +150,6 @@ function createJob() {
   // clear inputs from the create job div
   clearNewJobInputs();
   clearTableArea();
-  // repopulate the list
-  populateList(fileManager.getJobs());
 }
 
 function deleteJob(event){
@@ -175,7 +180,6 @@ tableArea.addEventListener('click', (e) => {
   if (e.target.parentElement.nodeName === 'TR') {
       console.log(e.target.parentElement.getAttribute('data-id'));
       let jobID = e.target.parentElement.getAttribute('data-id');
-      popup.style.display = "block";
       databaseManager.getJob(jobID, (row) => {
         let job = JSON.parse(row);
         let jobObj = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
@@ -183,6 +187,7 @@ tableArea.addEventListener('click', (e) => {
         popupTime.innerText = `Time Spent: ${jobObj.hours} hr(s) and ${jobObj.minutes} min(s)`;
         popupDetails.innerText = jobObj.notes;
         popup.setAttribute('data-id', jobID);
+        popup.style.display = "block";
       });
 
       // Handles closing button
