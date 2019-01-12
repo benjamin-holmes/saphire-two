@@ -2,6 +2,7 @@
 // Accessing the console running on the single main thread
 const con = require('electron').remote.getGlobal('console');
 const JobFileManager = require('../assets/fileManager.js');
+const DatabaseManager = require('../assets/databaseManager.js');
 const Job = require('../assets/job.js');
 
 
@@ -17,10 +18,16 @@ const newJobMoreInfo = document.getElementById('new-job-more-info');
 const jobTableBody = document.getElementById('job-table-body');
 const createJobButton = document.getElementById('create-job');
 const deleteJobButton = document.getElementById('delete-job-popup');
+const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
 let fileManager = new JobFileManager('./data/jobs.json');
+
+// TODO: Remove when done testing.
+let databaseManager = new DatabaseManager('./data/jobs.db');
+databaseManager.createDatabase();
+// databaseManager.createJob('Location One', '2018-01-11', '11:45', '18:20', 'Notes here');
 
 function clearNewJobInputs() {
   let inputs = newJobContainer.querySelectorAll('input');
@@ -76,6 +83,7 @@ function addJobToTable(job, table){
   timeEl = document.createElement('td');
   locationText = document.createTextNode(job.location);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
+  console.log(job);
 
   locationEl.appendChild(locationText);
   timeEl.appendChild(timeText);
@@ -107,6 +115,7 @@ function calculateTimeSpent(jobList) {
 
 // Add all Jobs to the list from the data file
 function populateList(jobList) {
+  jobList = JSON.parse(jobList);
   for (let j in jobList){
     let totalTimeDay = calculateTimeSpent(jobList[j]);
     let newTable = createJobTable(jobList[j][0].date, totalTimeDay);
@@ -165,14 +174,16 @@ tableArea.addEventListener('click', (e) => {
 
   if (e.target.parentElement.nodeName === 'TR') {
       console.log(e.target.parentElement.getAttribute('data-id'));
-      let itemNum = e.target.parentElement.getAttribute('data-id');
+      let jobID = e.target.parentElement.getAttribute('data-id');
       popup.style.display = "block";
-      let job = list.find((a) => { return a.id === parseInt(itemNum) });
-
-      popupLocation.innerText = job.location;
-      popupTime.innerText = `Time Spent: ${job.hours} hr(s) and ${job.minutes} min(s)`;
-      popupDetails.innerText = job.notes;
-      popup.setAttribute('data-id', itemNum);
+      databaseManager.getJob(jobID, (row) => {
+        let job = JSON.parse(row);
+        let jobObj = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
+        popupLocation.innerText = jobObj.location;
+        popupTime.innerText = `Time Spent: ${jobObj.hours} hr(s) and ${jobObj.minutes} min(s)`;
+        popupDetails.innerText = jobObj.notes;
+        popup.setAttribute('data-id', jobID);
+      });
 
       // Handles closing button
       done.addEventListener('click', (e) => {
@@ -180,6 +191,18 @@ tableArea.addEventListener('click', (e) => {
       });
   }
 });
+
+function syncJobs() {
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://10.0.0.185/api/getall', true);
+  xhr.setRequestHeader("Content-Type", "text/plain");
+  xhr.onreadystatechange = () => {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      console.log('Done!');
+    }
+  }
+  xhr.send(JSON.stringify(fileManager.getJobList()));
+}
 
 // Handles shrinking and adding opacity to the nav bar
 window.addEventListener('scroll', (e) => {
@@ -199,7 +222,14 @@ createJobButton.addEventListener('click', createJob);
 // Handle a job being deleted
 deleteJobButton.addEventListener('click', (e) => { deleteJob(e) });
 
+// Temp listener for review.
+// TODO: change to sync
+reviewButton.addEventListener('click', syncJobs);
+
 // basic initial preparation
 fileManager.dataFileCheck();
-populateList(fileManager.getJobs());
+databaseManager.getAllJobs((jobs) => {
+  populateList(jobs);
+});
+// populateList(fileManager.getJobs();
 newJobContainer.style.display = "none";

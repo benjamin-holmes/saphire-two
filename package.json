@@ -6,18 +6,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
+    "rebuild": "electron-rebuild -f -w sqlite3",
     "dist": "build"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "electron": "^3.0.10",
-    "electron-builder": "^20.38.3"
+    "electron-builder": "^20.38.3",
+    "electron-rebuild": "^1.8.2"
   },
   "build": {
     "appId": "Saphire",
     "win": {
       "target": "NSIS"
     }
+  },
+  "dependencies": {
+    "sqlite3": "^4.0.6"
   }
 }
