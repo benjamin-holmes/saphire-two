@@ -22,7 +22,7 @@ const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
 // TODO: Remove when done testing.
-let databaseManager = new DatabaseManager('./data/jobs.db');
+let databaseManager = new DatabaseManager('./jobs.db');
 databaseManager.createDatabase();
 // databaseManager.createJob('Location One', '2018-01-11', '11:45', '18:20', 'Notes here');
 
