@@ -152,8 +152,20 @@ class DatabaseManager {
       /**
        * Placeholder
        */
-      deleteJob(id) {
+      deleteJob(id, done) {
         console.log('deleteJob called.');
+        let sql = 'DELETE FROM test WHERE job_id=?';
+        let db = new sqlite3.Database(this.databasePath);
+        let arg = [id];
+
+        db.run(sql, arg, function (err){
+          if (err) {
+            return console.log(err.message);
+          }
+          // Run callback function
+          done();
+        });
+
       }
 }
 

@@ -1,7 +1,6 @@
 "use strict";
 // Accessing the console running on the single main thread
 const con = require('electron').remote.getGlobal('console');
-const JobFileManager = require('../assets/fileManager.js');
 const DatabaseManager = require('../assets/databaseManager.js');
 const Job = require('../assets/job.js');
 
@@ -21,8 +20,6 @@ const deleteJobButton = document.getElementById('delete-job-popup');
 const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
-
-let fileManager = new JobFileManager('./data/jobs.json');
 
 // TODO: Remove when done testing.
 let databaseManager = new DatabaseManager('./data/jobs.db');
@@ -134,12 +131,9 @@ function createJob() {
   let moreInfo = newJobMoreInfo.value;
   let newJobEl = document.createElement('div');
 
-  // let j = new Job(fileManager.listSize() + 1, location, date, startTime, endTime, moreInfo);
-  // fileManager.writeJob(j);
   databaseManager.createJob(location, date, startTime, endTime, moreInfo, () => {
     // repopulate the list
     databaseManager.getAllJobs((jobs) => {
-      console.log(jobs);
       populateList(jobs);
     });
   });
@@ -154,10 +148,12 @@ function createJob() {
 
 function deleteJob(event){
   let jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
-  fileManager.deleteJob(jobId);
-  fileManager.reWriteJobList();
-  clearTableArea();
-  populateList(fileManager.getJobs());
+  databaseManager.deleteJob(jobId, () => {
+    clearTableArea();
+    databaseManager.getAllJobs((jobs) => {
+      populateList(jobs);
+    });
+  });
   popup.style.display = "none";
 }
 
@@ -175,7 +171,6 @@ tableArea.addEventListener('click', (e) => {
   let popupLocation = document.getElementById('popup-location');
   let popupTime = document.getElementById('popup-time');
   let popupDetails = document.getElementById('popup-details');
-  let list = fileManager.getJobList();
 
   if (e.target.parentElement.nodeName === 'TR') {
       console.log(e.target.parentElement.getAttribute('data-id'));
@@ -232,9 +227,8 @@ deleteJobButton.addEventListener('click', (e) => { deleteJob(e) });
 reviewButton.addEventListener('click', syncJobs);
 
 // basic initial preparation
-fileManager.dataFileCheck();
 databaseManager.getAllJobs((jobs) => {
   populateList(jobs);
 });
-// populateList(fileManager.getJobs();
+
 newJobContainer.style.display = "none";
