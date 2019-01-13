@@ -75,11 +75,13 @@ class DatabaseManager {
   /**
    * Placeholder
    */
-   createDatabase() {
+   createDatabase(done) {
      const sql = 'CREATE TABLE IF NOT EXISTS test(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB)';
-
      let db = new sqlite3.Database(this.databasePath);
-     db.run(sql);
+
+     db.run(sql, ()=>{
+       done();
+     });
      db.close();
 
      console.log(`createDatabase called. Created as ${this.databasePath}`)
