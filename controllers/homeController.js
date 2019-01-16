@@ -193,15 +193,7 @@ tableArea.addEventListener('click', (e) => {
 });
 
 function syncJobs() {
-  let xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://10.0.0.185/api/getall', true);
-  xhr.setRequestHeader("Content-Type", "text/plain");
-  xhr.onreadystatechange = () => {
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-      console.log('Done!');
-    }
-  }
-  xhr.send(JSON.stringify(fileManager.getJobList()));
+  // TODO: Implement and use fetch!!
 }
 
 // Handles shrinking and adding opacity to the nav bar
