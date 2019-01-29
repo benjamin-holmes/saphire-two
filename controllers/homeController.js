@@ -16,6 +16,7 @@ const newJobEndTime = document.getElementById('new-job-end-time');
 const newJobMoreInfo = document.getElementById('new-job-more-info');
 const jobTableBody = document.getElementById('job-table-body');
 const createJobButton = document.getElementById('create-job');
+const cancelJobButton = document.getElementById('cancel-job');
 const deleteJobButton = document.getElementById('delete-job-popup');
 const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
@@ -189,20 +190,9 @@ function syncJobs() {
   // TODO: Implement and use fetch!!
 }
 
-// Handles shrinking and adding opacity to the nav bar
-window.addEventListener('scroll', (e) => {
-  let tableTop = tableArea.getBoundingClientRect();
-  if (tableTop.top < -10) {
-    navbar.style.padding = '10px';
-    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.35)';
-  } else {
-    navbar.style.padding = '35px';
-    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-  }
-});
-
 // Button listeners
 createJobButton.addEventListener('click', createJob);
+cancelJobButton.addEventListener('click', () => newJobContainer.style.display = "none"); // Cancel button closes window
 deleteJobButton.addEventListener('click', (e) => { deleteJob(e) });
 reviewButton.addEventListener('click', syncJobs); // TODO fix to syn and implement
 

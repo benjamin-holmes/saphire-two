@@ -12,18 +12,18 @@ h2 {
   position: sticky;
   top: 0;
   text-align: center;
-  background-color: rgba(0,0,0,0.85);
-  margin-bottom: 50px;
+  background-color: rgba(0,0,0,0.65);
+  margin-bottom: 30px;
   color: white;
-  padding: 35px;
+  padding: 20px;
   box-shadow: 1px 1px 30px grey;
 }
 .nav-link {
   color: inherit;
-  font-size: 25px;
+  font-size: 16px;
   font-style: bold;
   font-family: "Verdana", sans-serif;
-  padding: 40px;
+  padding: 30px;
   text-decoration: none;
 }
 .nav-link:hover {
@@ -32,23 +32,12 @@ h2 {
 button {
   background-color: lightgrey;
   border: solid 1px lightblue;
-  padding: 10px 32px;
+  padding: 5px 10px;
   text-align: center;
   display: inline-block;
 }
-input {
-  border-radius: 5px;
-  font-size: 20px;
-  margin: 10px;
-  width: 300px;
-}
 button {
   box-shadow: 1px 1px 6px grey;
-}
-textarea {
-  font-size: 20px;
-  margin: 10px;
-  width: 300px;
 }
 .table-container {
   margin-left: auto;
@@ -56,8 +45,12 @@ textarea {
   box-shadow: 1px 1px 30px grey;
   text-align: center;
   padding: 10px;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   width: 90%;
+}
+.table-container h2 {
+  color: rgba(100, 100, 100, 1);
+  font-size: 16px;
 }
 table {
   margin-bottom: 60px;
@@ -65,11 +58,12 @@ table {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
-  width: 650px;
+  width: 90%;
+  font-size: 14px;
 }
 th, td {
   border-bottom: 1px solid lightgrey;
-  padding: 10px 50px;
+  padding: 10px;
 }
 th {
   color: white;
@@ -79,15 +73,34 @@ table tr:nth-child(odd) {
   background-color: lightblue;
 }
 .popup {
-  border-radius: 10px;
-  display: none;
+  position: absolute;
   text-align: center;
   color: white;
-  width: 400px;
+  width: 300px;
+  padding: 5px;
   background-color: rgba(0, 0, 0, 0.85);
-  position: fixed;
+  /* Center the popup */
   left: 50%;
-  top: 20%;
-  margin-left: -200px;
-  padding: 20px;
+  margin-left: -150px;
+}
+.popup h2 {
+  color: white;
+  font-size: 16px;
+}
+.popup input {
+  border: 1px solid lightgrey;
+  font-family: "Verdana", sans-serif;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 90%;
+  padding: 5px;
+}
+.popup textarea {
+  font-family: "Verdana", sans-serif;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 90%;
+  padding: 5px;
+  resize: none;
 }
