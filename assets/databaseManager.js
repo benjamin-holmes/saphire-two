@@ -35,40 +35,13 @@ class DatabaseManager {
   * @return {List} 2D array of sorted jobs
   */
   separateByDate(data) {
-    console.log('separateByDate called');
-    let newSort = [];
-    let curList = [];
-
-    if(data.length === 0) return newSort;
-    if(data.length === 1) {
-      curList.push(data[0]);
-      newSort.push(curList);
-      return newSort;
+    let separateDateList = [];
+    while(data.length !== 0) {
+      let singleDayList = data.filter(job => job.date === data[0].date);
+      separateDateList.push(singleDayList);
+      data = data.filter(job => job.date !== singleDayList[0].date);
     }
-    else {
-      for (let i = 0; i < data.length; i++) {
-        if (curList.length === 0) {
-          console.log(`curList empty. Adding new item ${data[i].date}`);
-          curList.push(data[i]);
-        }
-        else if (curList.length > 0) {
-          if (curList[0].date === data[i].date) {
-            console.log(`curList same data. Adding new item ${data[i].date}`);
-            curList.push(data[i]);
-          } else {
-            console.log(`new date, new curList created. Adding new item ${data[i].date}`);
-            newSort.push(curList);
-            curList = [];
-            curList.push(data[i]);
-          }
-        }
-        if (i + 1 === data.length) {
-          console.log('END');
-          newSort.push(curList);
-          return newSort;
-        }
-      }
-    }
+    return separateDateList;
   }
 
   /**
