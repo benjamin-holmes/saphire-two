@@ -21,10 +21,7 @@ const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 
-// TODO: Remove when done testing.
-let databaseManager = new DatabaseManager('./jobs.db');
-databaseManager.createDatabase();
-// databaseManager.createJob('Location One', '2018-01-11', '11:45', '18:20', 'Notes here');
+const databaseManager = new DatabaseManager('./jobs.db');
 
 function clearNewJobInputs() {
   let inputs = newJobContainer.querySelectorAll('input');
@@ -131,12 +128,10 @@ function createJob() {
   let moreInfo = newJobMoreInfo.value;
   let newJobEl = document.createElement('div');
 
-  databaseManager.createJob(location, date, startTime, endTime, moreInfo, () => {
-    // repopulate the list
-    databaseManager.getAllJobs((jobs) => {
-      populateList(jobs);
-    });
-  });
+  databaseManager.createJob(location, date, startTime, endTime, moreInfo)
+    .then(() => databaseManager.getAllJobs())
+    .then(jobs => populateList(jobs))
+    .catch(err => console.log('Error', err));
 
   // Hide the new job div element
   newJobContainer.style.display = "none";
@@ -173,17 +168,18 @@ tableArea.addEventListener('click', (e) => {
   let popupDetails = document.getElementById('popup-details');
 
   if (e.target.parentElement.nodeName === 'TR') {
-      console.log(e.target.parentElement.getAttribute('data-id'));
       let jobID = e.target.parentElement.getAttribute('data-id');
-      databaseManager.getJob(jobID, (row) => {
-        let job = JSON.parse(row);
-        let jobObj = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
-        popupLocation.innerText = jobObj.location;
-        popupTime.innerText = `Time Spent: ${jobObj.hours} hr(s) and ${jobObj.minutes} min(s)`;
-        popupDetails.innerText = jobObj.notes;
-        popup.setAttribute('data-id', jobID);
-        popup.style.display = "block";
-      });
+      databaseManager.getJob(jobID)
+        .then((row) => {
+          const job = JSON.parse(row);
+          const jobObj = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
+          popupLocation.innerText = jobObj.location;
+          popupTime.innerText = `Time Spent: ${jobObj.hours} hr(s) and ${jobObj.minutes} min(s)`;
+          popupDetails.innerText = jobObj.notes;
+          popup.setAttribute('data-id', jobID);
+          popup.style.display = "block"
+        })
+        .catch(err => console.log(err.message));
 
       // Handles closing button
       done.addEventListener('click', (e) => {
@@ -208,19 +204,14 @@ window.addEventListener('scroll', (e) => {
   }
 });
 
-// Handle a new job being created
+// Button listeners
 createJobButton.addEventListener('click', createJob);
-
-// Handle a job being deleted
 deleteJobButton.addEventListener('click', (e) => { deleteJob(e) });
+reviewButton.addEventListener('click', syncJobs); // TODO fix to syn and implement
 
-// Temp listener for review.
-// TODO: change to sync
-reviewButton.addEventListener('click', syncJobs);
-
-// basic initial preparation
-databaseManager.getAllJobs((jobs) => {
-  populateList(jobs);
-});
-
+// Initial preparation
+databaseManager.createDatabase();
+databaseManager.getAllJobs()
+  .then(jobs => populateList(jobs))
+  .catch(err => console.log(err.message));
 newJobContainer.style.display = "none";

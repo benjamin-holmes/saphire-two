@@ -75,88 +75,76 @@ class DatabaseManager {
   /**
    * Placeholder
    */
-   createDatabase(done) {
-     const sql = 'CREATE TABLE IF NOT EXISTS test(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB)';
-     let db = new sqlite3.Database(this.databasePath);
-
-     db.run(sql, ()=>{
-       done();
+   createDatabase() {
+     const sql = 'CREATE TABLE IF NOT EXISTS jobs(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB)';
+     const db = new sqlite3.Database(this.databasePath);
+     return new Promise((resolve, reject) => {
+       db.run(sql, (err) => {
+         if (err) reject(err)
+         resolve(1);
+       });
+       db.close();
      });
-     db.close();
-
-     console.log(`createDatabase called. Created as ${this.databasePath}`)
-     return true;
    }
 
    /**
     * Placeholder
     */
-    createJob(location, date, startTime, endTime, notes, done) {
+    createJob(location, date, startTime, endTime, notes) {
       let args = [location, date, startTime, endTime, notes];
-      let sql = `INSERT INTO test(location, date, startTime, endTime, notes) VALUES(?, ?, ?, ?, ?)`;
+      let sql = `INSERT INTO jobs(location, date, startTime, endTime, notes) VALUES(?, ?, ?, ?, ?)`;
       let db = new sqlite3.Database(this.databasePath);
 
-      db.run(sql, args, (err) => {
-        if (err) {
-          return console.log(err.message);
-        }
-        console.log(`New job added with rowid ${this.lastID}`);
-        // run the callback
-        done();
+      return new Promise((resolve, reject) => {
+        db.run(sql, args, (err) => {
+          if (err) { reject(err) }
+          resolve(1);
+        });
+        db.close();
       });
-      db.close();
     }
 
     /**
      * Placeholder
      */
-     getJob(id, done) {
-       let sql = `SELECT * FROM test WHERE job_id = ?`;
-       let args = [id];
-       let db = new sqlite3.Database(this.databasePath);
+     getJob(id) {
+       const sql = `SELECT * FROM jobs WHERE job_id = ?`;
+       const args = [id];
+       const db = new sqlite3.Database(this.databasePath);
 
-       console.log(`getJobByID called. Searching for id ${id}.`);
-
-       db.get(sql, args, (err, row) => {
-         if(err) {
-           return false;
-         }
-         if(row){
-           done(JSON.stringify(row));
-           return true;
-         } else {
-           return false;
-         }
+       return new Promise((resolve, reject) => {
+         db.get(sql, args, (err, row) => {
+           if(err) { reject(err) }
+           if(row){ resolve(JSON.stringify(row)) }
+         });
        });
      }
 
      /**
       * Placeholder
       */
-      getAllJobs(done) {
-        let sql = 'SELECT * FROM test';
-        let db = new sqlite3.Database(this.databasePath);
-        let jobObjectList = [];
+      getAllJobs() {
+        const sql = 'SELECT * FROM jobs';
+        const db = new sqlite3.Database(this.databasePath);
+        const jobObjectList = [];
 
-        db.all(sql, [], (err, rows) => {
-          if (err) { throw err }
-          // Sort and send to separateByDate
-          this.sortByDate(rows);
-          rows.forEach((job) => {
-            let j = new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes);
-            jobObjectList.push(j);
+        return new Promise((resolve, reject) => {
+          db.all(sql, [], (err, rows) => {
+            if (err) { rejecet(err) }
+            // Sort and send to separateByDate
+            this.sortByDate(rows);
+            rows.forEach( job => jobObjectList.push(new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes)));
+            resolve(JSON.stringify(this.separateByDate(jobObjectList)));
           });
-          // use callback
-          done(JSON.stringify(this.separateByDate(jobObjectList)));
         });
+
       }
 
       /**
        * Placeholder
        */
       deleteJob(id, done) {
-        console.log('deleteJob called.');
-        let sql = 'DELETE FROM test WHERE job_id=?';
+        let sql = 'DELETE FROM jobs WHERE job_id=?';
         let db = new sqlite3.Database(this.databasePath);
         let arg = [id];
 
