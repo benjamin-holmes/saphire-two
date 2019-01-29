@@ -77,7 +77,6 @@ function addJobToTable(job, table){
   timeEl = document.createElement('td');
   locationText = document.createTextNode(job.location);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
-  console.log(job);
 
   locationEl.appendChild(locationText);
   timeEl.appendChild(timeText);
@@ -142,13 +141,11 @@ function createJob() {
 }
 
 function deleteJob(event){
-  let jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
-  databaseManager.deleteJob(jobId, () => {
-    clearTableArea();
-    databaseManager.getAllJobs((jobs) => {
-      populateList(jobs);
-    });
-  });
+  const jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
+  databaseManager.deleteJob(jobId)
+    .then(() => databaseManager.getAllJobs())
+    .then(jobs => populateList(jobs))
+    .catch(err => console.log('Error', err.message));
   popup.style.display = "none";
 }
 

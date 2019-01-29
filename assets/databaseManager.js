@@ -1,5 +1,4 @@
 "use strict";
-
 const sqlite3 = require('sqlite3').verbose();
 const Job = require('../assets/job.js');
 
@@ -143,19 +142,17 @@ class DatabaseManager {
       /**
        * Placeholder
        */
-      deleteJob(id, done) {
-        let sql = 'DELETE FROM jobs WHERE job_id=?';
-        let db = new sqlite3.Database(this.databasePath);
-        let arg = [id];
+      deleteJob(id) {
+        const sql = 'DELETE FROM jobs WHERE job_id=?';
+        const db = new sqlite3.Database(this.databasePath);
+        const arg = [id];
 
-        db.run(sql, arg, function (err){
-          if (err) {
-            return console.log(err.message);
-          }
-          // Run callback function
-          done();
+        return new Promise((resolve, reject) => {
+          db.run(sql, arg, function (err){
+            if (err) { reject(err) }
+            resolve(1);
+          });
         });
-
       }
 }
 
