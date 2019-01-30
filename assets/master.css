@@ -72,8 +72,11 @@ th {
 table tr:nth-child(odd) {
   background-color: lightblue;
 }
+
+/* Create job menu and details menu styling */
 .popup {
-  position: absolute;
+  display: none;
+  position: fixed;
   text-align: center;
   color: white;
   width: 300px;
@@ -82,6 +85,7 @@ table tr:nth-child(odd) {
   /* Center the popup */
   left: 50%;
   margin-left: -150px;
+  top: 40%;
 }
 .popup h2 {
   color: white;
@@ -103,4 +107,7 @@ table tr:nth-child(odd) {
   width: 90%;
   padding: 5px;
   resize: none;
+}
+.popup h3, p{
+  font-size: 12px;
 }
