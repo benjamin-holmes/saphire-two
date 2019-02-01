@@ -48,7 +48,7 @@ class DatabaseManager {
    * Placeholder
    */
    createDatabase() {
-     const sql = 'CREATE TABLE IF NOT EXISTS jobs(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB)';
+     const sql = 'CREATE TABLE IF NOT EXISTS jobs(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB, editFlag INTEGER)';
      const db = new sqlite3.Database(this.databasePath);
      return new Promise((resolve, reject) => {
        db.run(sql, (err) => {

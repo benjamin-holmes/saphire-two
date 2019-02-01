@@ -145,7 +145,10 @@ function deleteJob(event){
   const jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
   databaseManager.deleteJob(jobId)
     .then(() => databaseManager.getAllJobs())
-    .then(jobs => populateList(jobs))
+    .then((jobs) => {
+      clearTableArea();
+      populateList(jobs);
+    })
     .catch(err => console.log('Error', err.message));
   popup.style.display = "none";
 }
