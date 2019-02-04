@@ -72,7 +72,6 @@ th {
 table tr:nth-child(odd) {
   background-color: lightblue;
 }
-
 /* Create job menu and details menu styling */
 .popup {
   display: none;
@@ -110,4 +109,18 @@ table tr:nth-child(odd) {
 }
 .popup h3, p{
   font-size: 12px;
+}
+table svg {
+  opacity: 0.1;
+  padding: 0px;
+}
+table button {
+  background-color: rgba(1,1,1,0);
+  box-shadow: none;
+}
+table svg:hover {
+  opacity: 1;
+}
+table td:nth-child(1) {
+  width: 15%;
 }

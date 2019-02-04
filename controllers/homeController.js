@@ -21,6 +21,7 @@ const deleteJobButton = document.getElementById('delete-job-popup');
 const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
+const editIcon = document.getElementById('edit-icon');
 
 const databaseManager = new DatabaseManager('./jobs.db');
 
@@ -46,6 +47,7 @@ function createJobTable(date, timeSpentObj){
   const tableTitle = document.createElement('h2');
   const newTable = document.createElement('table');
   const heading = document.createElement('thead');
+  const editHeading = document.createElement('th');
   const dateHeading = document.createElement('th');
   const locationHeading = document.createElement('th');
   const timeHeading = document.createElement('th');
@@ -57,6 +59,7 @@ function createJobTable(date, timeSpentObj){
   timeDetails.appendChild(document.createTextNode(`${timeSpentObj.hours} hours and
     ${timeSpentObj.mins} minutes of work done today.`));
 
+  heading.appendChild(editHeading);
   heading.appendChild(locationHeading);
   heading.appendChild(timeHeading);
   newTable.appendChild(heading);
@@ -71,17 +74,22 @@ function createJobTable(date, timeSpentObj){
 }
 
 function addJobToTable(job, table){
-  let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl;
+  const svgEdit =  `<svg width="30" height="30" viewBox="0 0 24 24" id='edit-icon' data-id=${job.id}>
+  <path data-id=${job.id} d="M20.71,4.04C21.1,3.65 21.1,3 20.71,2.63L18.37,0.29C18,-0.1 17.35,-0.1 16.96,0.29L15,2.25L18.75,6M17.75,7L14,3.25L4,13.25V17H7.75L17.75,7Z"></path></svg>`;
+  let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl, editButtons;
 
+  editButtons = document.createElement('td');
   newJobRow = document.createElement('tr');
   locationEl = document.createElement('td');
   timeEl = document.createElement('td');
   locationText = document.createTextNode(job.location);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
 
+  editButtons.innerHTML = svgEdit;
   locationEl.appendChild(locationText);
   timeEl.appendChild(timeText);
 
+  newJobRow.appendChild(editButtons);
   newJobRow.appendChild(locationEl);
   newJobRow.appendChild(timeEl);
 
@@ -186,6 +194,9 @@ tableArea.addEventListener('click', (e) => {
       done.addEventListener('click', (e) => {
         popup.style.display = "none";
       });
+  } else if(e.target.getAttribute('data-id')){
+    // TODO implement and have other popups close if selected
+    console.log(e.target.getAttribute('data-id'));
   }
 });
 
