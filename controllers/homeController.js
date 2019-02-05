@@ -3,6 +3,7 @@
 const con = require('electron').remote.getGlobal('console');
 const DatabaseManager = require('../assets/databaseManager.js');
 const Job = require('../assets/job.js');
+const EditJob = require('../controllers/editJob.js');
 
 
 const tableArea = document.getElementById('table-area');
@@ -22,6 +23,7 @@ const reviewButton = document.getElementById('sync-job-link');
 const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 const editIcon = document.getElementById('edit-icon');
+const editJobPopup = document.getElementById('edit-job-popup');
 
 const databaseManager = new DatabaseManager('./jobs.db');
 
@@ -197,6 +199,9 @@ tableArea.addEventListener('click', (e) => {
   } else if(e.target.getAttribute('data-id')){
     // TODO implement and have other popups close if selected
     console.log(e.target.getAttribute('data-id'));
+    editJobPopup.style.display = "block";
+    new EditJob(document);
+
   }
 });
 
