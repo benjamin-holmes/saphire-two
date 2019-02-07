@@ -3,7 +3,7 @@
 const con = require('electron').remote.getGlobal('console');
 const DatabaseManager = require('../assets/databaseManager.js');
 const Job = require('../assets/job.js');
-const EditJob = require('../controllers/editJob.js');
+const EditJobController = require('../controllers/editJob.js');
 
 
 const tableArea = document.getElementById('table-area');
@@ -26,6 +26,7 @@ const editIcon = document.getElementById('edit-icon');
 const editJobPopup = document.getElementById('edit-job-popup');
 
 const databaseManager = new DatabaseManager('./jobs.db');
+const editJobController = new EditJobController();
 
 function clearNewJobInputs() {
   let inputs = newJobContainer.querySelectorAll('input');
@@ -178,6 +179,7 @@ tableArea.addEventListener('click', (e) => {
   let popupTime = document.getElementById('popup-time');
   let popupDetails = document.getElementById('popup-details');
 
+  // Refactor to own class like editJob
   if (e.target.parentElement.nodeName === 'TR') {
       let jobID = e.target.parentElement.getAttribute('data-id');
       databaseManager.getJob(jobID)
@@ -198,10 +200,7 @@ tableArea.addEventListener('click', (e) => {
       });
   } else if(e.target.getAttribute('data-id')){
     // TODO implement and have other popups close if selected
-    console.log(e.target.getAttribute('data-id'));
-    editJobPopup.style.display = "block";
-    new EditJob(document);
-
+    editJobController.setJobInfo(parseInt(e.target.getAttribute('data-id')));
   }
 });
 
