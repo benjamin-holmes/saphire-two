@@ -1,5 +1,5 @@
 class EditJobController {
-  constructor(databaseManager) {
+  constructor(databaseManager, homeController) {
     // Reference HTML elements
     this.editJobPopup = document.getElementById('edit-job-popup');
     this.editLocation = document.getElementById('edit-location');
@@ -10,6 +10,7 @@ class EditJobController {
     this.editAcceptButton = document.getElementById('edit-accept');
     this.editCancelButton = document.getElementById('edit-cancel');
     this.databaseManager = databaseManager;
+    this.homeController = homeController;
 
     this.editAcceptButton.addEventListener('click', () => this.acceptChanges());
     this.editCancelButton.addEventListener('click', () => editJobPopup.style.display = "none");
@@ -17,6 +18,7 @@ class EditJobController {
 
   async setJobInfo(elementId) {
     const jobInfo = await this.getJobInfo(elementId);
+    this.jobId = elementId;
     this.display(jobInfo);
   }
 
@@ -38,9 +40,14 @@ class EditJobController {
     editJobPopup.style.display = "block";
   }
 
-  acceptChanges() {
-    console.log('Accept changes selected');
+  async acceptChanges() {
     editJobPopup.style.display = "none";
+    const result = await this.databaseManager.editJob(this.editLocation.value,
+      this.editDate.value, this.editStartTime.value, this.editEndTime.value,
+      this.editTextArea.value, 1, this.jobId);
+
+    if(!1) console.log(result);
+    this.homeController.updateTableArea();
   }
 }
 

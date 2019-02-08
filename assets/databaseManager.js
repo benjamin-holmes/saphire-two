@@ -111,6 +111,7 @@ class DatabaseManager {
             if (err) { rejecet(err) }
             // Sort and send to separateByDate
             this.sortByDate(rows);
+            console.log(rows);
             rows.forEach( job => jobObjectList.push(new Job(job.job_id, job.location, job.date, job.startTime, job.endTime, job.notes)));
             resolve(JSON.stringify(this.separateByDate(jobObjectList)));
           });
@@ -132,6 +133,20 @@ class DatabaseManager {
             resolve(1);
           });
         });
+      }
+
+      editJob(location, date, startTime, endTime, notes, flag, jobId) {
+        const sql = "UPDATE jobs SET location=?, date=?, startTime=?, endTime=?, notes=?, editFlag=? WHERE job_id=?";
+        const db = new sqlite3.Database(this.databasePath);
+        const args = [location, date, startTime, endTime, notes, flag, jobId];
+
+        return new Promise((resolve, reject) => {
+          db.run(sql, args, (err, rows) => {
+            if(err) reject(err);
+            resolve(1);
+          });
+        });
+
       }
 }
 

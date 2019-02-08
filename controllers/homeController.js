@@ -24,9 +24,10 @@ const newJobButton = document.getElementById('new-job-link');
 const doneButton = document.getElementById('done');
 const editIcon = document.getElementById('edit-icon');
 const editJobPopup = document.getElementById('edit-job-popup');
+const editAcceptButton = document.getElementById('edit-accept');
 
 const databaseManager = new DatabaseManager('./jobs.db');
-const editJobController = new EditJobController(databaseManager);
+const editJobController = new EditJobController(databaseManager, this);
 
 function clearNewJobInputs() {
   let inputs = newJobContainer.querySelectorAll('input');
@@ -206,6 +207,13 @@ tableArea.addEventListener('click', (e) => {
 
 function syncJobs() {
   // TODO: Implement and use fetch!!
+}
+
+function updateTableArea() {
+  clearTableArea();
+  databaseManager.getAllJobs()
+    .then(jobs => populateList(jobs))
+    .catch(err => console.log(err.message));
 }
 
 // Button listeners
