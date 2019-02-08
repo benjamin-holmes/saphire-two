@@ -46,7 +46,7 @@ class EditJobController {
       this.editDate.value, this.editStartTime.value, this.editEndTime.value,
       this.editTextArea.value, 1, this.jobId);
 
-    if(!1) console.log(result);
+    if(result !== 1) console.log(result);
     this.homeController.updateTableArea();
   }
 }

@@ -153,15 +153,12 @@ function createJob() {
   clearTableArea();
 }
 
-function deleteJob(event){
+async function deleteJob(event){
   const jobId = parseInt(event.target.parentNode.getAttribute('data-id'));
-  databaseManager.deleteJob(jobId)
-    .then(() => databaseManager.getAllJobs())
-    .then((jobs) => {
-      clearTableArea();
-      populateList(jobs);
-    })
-    .catch(err => console.log('Error', err.message));
+  await databaseManager.deleteJob(jobId);
+  const jobs = await databaseManager.getAllJobs();
+  clearTableArea();
+  populateList(jobs);
   popup.style.display = "none";
 }
 
@@ -224,7 +221,5 @@ reviewButton.addEventListener('click', syncJobs); // TODO fix to syn and impleme
 
 // Initial preparation
 databaseManager.createDatabase();
-databaseManager.getAllJobs()
-  .then(jobs => populateList(jobs))
-  .catch(err => console.log(err.message));
+updateTableArea();
 newJobContainer.style.display = "none";
