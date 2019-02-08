@@ -9,7 +9,10 @@ class DatabaseManager {
   }
 
   /**
-   * Placeholder
+   * Sorts the list of jobs by date for use in a separator function.
+   *
+   * @params {List} an unordered list of jobs from the database
+   * @return {List} return a list of jobs sorted by creation date
    */
    sortByDate(data) {
      data.sort((a,b) => {
@@ -45,7 +48,10 @@ class DatabaseManager {
   }
 
   /**
-   * Placeholder
+   * Function that will create a sqlite table if it does not already
+   * exist in the given database.
+   *
+   * @return {Promise} sends error if error, othrwise returns a 1
    */
    createDatabase() {
      const sql = 'CREATE TABLE IF NOT EXISTS jobs(job_id INTEGER PRIMARY KEY, location TEXT NOT NULL, date TEXT NOT NULL, startTime TEXT NOT NULL, endTime TEXT NOT NULL, notes BLOB, editFlag INTEGER)';

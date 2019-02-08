@@ -26,7 +26,7 @@ const editIcon = document.getElementById('edit-icon');
 const editJobPopup = document.getElementById('edit-job-popup');
 
 const databaseManager = new DatabaseManager('./jobs.db');
-const editJobController = new EditJobController();
+const editJobController = new EditJobController(databaseManager);
 
 function clearNewJobInputs() {
   let inputs = newJobContainer.querySelectorAll('input');
