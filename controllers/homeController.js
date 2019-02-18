@@ -132,7 +132,7 @@ function populateList(jobList) {
 }
 
 // Create a new job object and add it to the list
-function createJob() {
+async function createJob() {
   let location = newJobLocation.value;
   let date = newJobDate.value;
   let startTime = newJobStartTime.value;
@@ -140,17 +140,20 @@ function createJob() {
   let moreInfo = newJobMoreInfo.value;
   let newJobEl = document.createElement('div');
 
-  databaseManager.createJob(location, date, startTime, endTime, moreInfo)
-    .then(() => databaseManager.getAllJobs())
-    .then(jobs => populateList(jobs))
-    .catch(err => console.log('Error', err));
-
-  // Hide the new job div element
-  newJobContainer.style.display = "none";
+  // databaseManager.createJob(location, date, startTime, endTime, moreInfo)
+  //   .then(() => databaseManager.getAllJobs())
+  //   .then(jobs => populateList(jobs))
+  //   .catch(err => console.log('Error', err));
+  await databaseManager.createJob(location, date, startTime, endTime, moreInfo);
+  const jobs = await databaseManager.getAllJobs();
 
   // clear inputs from the create job div
   clearNewJobInputs();
   clearTableArea();
+  populateList(jobs);
+
+  // Hide the new job div element
+  newJobContainer.style.display = "none";
 }
 
 async function deleteJob(event){
