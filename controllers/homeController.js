@@ -78,8 +78,11 @@ function createJobTable(date, timeSpentObj){
 }
 
 function addJobToTable(job, table){
+  const svgDelete = `<svg style="width:30px;height:30px" viewBox="0 0 24 24">
+    <path fill="#000000" d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M17,7H14.5L13.5,6H10.5L9.5,7H7V9H17V7M9,18H15A1,1 0 0,0 16,17V10H8V17A1,1 0 0,0 9,18Z" />
+</svg>`;
   const svgEdit =  `<svg width="30" height="30" viewBox="0 0 24 24" id='edit-icon' data-id=${job.id}>
-  <path data-id=${job.id} d="M20.71,4.04C21.1,3.65 21.1,3 20.71,2.63L18.37,0.29C18,-0.1 17.35,-0.1 16.96,0.29L15,2.25L18.75,6M17.75,7L14,3.25L4,13.25V17H7.75L17.75,7Z"></path></svg>`;
+  <path data-id=${job.id}   fill="#000000" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12H20A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4V2M18.78,3C18.61,3 18.43,3.07 18.3,3.2L17.08,4.41L19.58,6.91L20.8,5.7C21.06,5.44 21.06,5 20.8,4.75L19.25,3.2C19.12,3.07 18.95,3 18.78,3M16.37,5.12L9,12.5V15H11.5L18.87,7.62L16.37,5.12Z" /></svg>`;
   let newJobRow, locationText, dateText, timeText, locationEl, dateEl, timeEl, editButtons;
 
   editButtons = document.createElement('td');
@@ -89,7 +92,7 @@ function addJobToTable(job, table){
   locationText = document.createTextNode(job.location);
   timeText = document.createTextNode(`${job.hours}hr(s) ${job.minutes}minute(s)`);
 
-  editButtons.innerHTML = svgEdit;
+  editButtons.innerHTML = svgEdit + svgDelete;
   locationEl.appendChild(locationText);
   timeEl.appendChild(timeText);
 
